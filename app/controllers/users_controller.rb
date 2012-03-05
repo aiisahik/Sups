@@ -14,11 +14,9 @@ class UsersController < ApplicationController
   end
 
   def show
-
     @user = User.find params[:id]
     render 'edit'
   end
-
 
   def new
     @user = User.new
@@ -63,6 +61,5 @@ class UsersController < ApplicationController
     flash[:notice] = "User destroyed."
     redirect_to(:action => 'index')
   end
-
 
 end
