@@ -1,0 +1,12 @@
+<%= error_messages_for(@user) %>
+
+<table summary="User form fields">
+  <tr>
+    <th><%= f.label(:username) %></th>
+    <td><%= f.text_field(:username) %></td>
+  </tr>
+  <tr>
+    <th><%= f.label(:email) %></th>
+    <td><%= f.text_field(:email) %></td>
+  </tr>
+</table>
