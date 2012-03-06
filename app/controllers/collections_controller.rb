@@ -6,7 +6,7 @@ def index
   end
 
   def list
-    @collecions = Collection.all
+    @collections = Collection.all
   end
 
   def show
@@ -22,8 +22,8 @@ def index
     @collection = Collection.new(params[:collection])
     if @collection.save
       flash[:notice] = 'Collection created.'
-      redirect_to @collection, :notice => :default
-      #redirect_to(:action => 'list')
+
+      redirect_to(:action => 'index')
     else
       render("new")
     end
