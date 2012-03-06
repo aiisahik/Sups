@@ -1,0 +1,17 @@
+<% @page_title = 'Create Collection' %>
+
+<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+
+<div class="collection new">
+  <h2>Create Collection</h2>
+
+  <%= form_for(:collection, :url => {:action => 'create'}) do |f| %>
+
+    <%= render(:partial => 'form', :locals => {:f => f} ) %>
+  
+
+      <%= submit_tag 'Create Collection', :class => "btn-primary" %>
+
+  
+  <% end %>
+</div>

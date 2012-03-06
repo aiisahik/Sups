@@ -1,0 +1,17 @@
+<% @page_title = "Edit Collection: #{@collection.name}" -%>
+
+<%#= link_to("<< Back to List", {:action => 'list'}, :class => 'back-link') %>
+<%= link_to("<< Back to List", {:action =>'index'}) %>
+
+<div class="collection edit">
+  <h2>Edit User</h2>
+
+  <%= form_for(:collection, :url => {:action => 'update', :id => @collection.id}, :method => 'PUT') do |f| %>
+    
+  	<%= render(:partial => 'form', :locals => {:f => f} ) %>
+	
+
+  	  <%= submit_tag('Update Collection', :class => "btn-primary") %>
+
+  <% end %>
+</div>
