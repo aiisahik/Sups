@@ -1,0 +1,11 @@
+common: &common
+  api:
+
+test:
+  <<: *common
+
+development:
+  <<: *common
+
+production:
+  <<: *common
