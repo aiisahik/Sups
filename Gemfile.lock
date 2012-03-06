@@ -173,7 +173,7 @@ DEPENDENCIES
   delorean
   heroku
   jquery-rails
-  mysql2 (< 0.3)
+  mysql2
   rails (= 3.2.1)
   rails_admin!
   rspec-rails
