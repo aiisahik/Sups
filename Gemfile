@@ -7,7 +7,7 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', '< 0.3.7'
+gem 'mysql2', '< 0.3'
 gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 
 gem 'unicorn'
