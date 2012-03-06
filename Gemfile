@@ -8,7 +8,7 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #gem 'mysql2', '< 0.3'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.11'
 gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 
 gem 'unicorn'
