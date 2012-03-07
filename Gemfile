@@ -8,14 +8,12 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #gem 'mysql2', '< 0.3'
-<<<<<<< HEAD
-gem 'mysql2',   '~> 0.3.11'
-=======
 gem 'mysql2', '~> 0.3.11'
->>>>>>> 753f4cbfddda5ed97d9fa21740883d0dd6a0c489
+
 gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 
 gem 'unicorn'
+gem 'paperclip', '~> 2.3'
 
 # Gems used only for assets and not required
 # in production environments by default.
