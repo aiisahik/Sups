@@ -22,7 +22,6 @@ def index
     @collection = Collection.new(params[:collection])
     if @collection.save
       flash[:notice] = 'Collection created.'
-
       redirect_to(:action => 'index')
     else
       render("new")
@@ -38,9 +37,9 @@ def index
     @collection = Collection.find(params[:id])
     if @collection.update_attributes(params[:collection])
       flash[:notice] = 'Collection updated.'
-      redirect_to @collection, :notice => :default
+      #redirect_to @collection, :notice => :default
+      redirect_to(:action => 'index')
       #redirect_to collection_path(@collection.id), :notice => :default
-
       #redirect_to(:action => 'list')
     else
       flash[:notice] = 'failed.'

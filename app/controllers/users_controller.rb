@@ -26,8 +26,9 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = 'User created.'
-      redirect_to @user, :notice => :default
+      #redirect_to @user, :notice => :default
       #redirect_to(:action => 'list')
+      redirect_to(:action => 'index')
     else
       render("new")
     end
@@ -42,10 +43,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:notice] = 'User updated.'
-      redirect_to @user, :notice => :default
+      #redirect_to @user, :notice => :default
       #redirect_to user_path(@user.id), :notice => :default
+      redirect_to(:action => 'index')
 
-      #redirect_to(:action => 'list')
     else
       flash[:notice] = 'failed.'
       render("list")
