@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       redirect_to(:action => 'index')
 
     else
-      flash[:notice] = 'failed.'
+      flash[:notice] = 'Massive FAIL'
       render("list")
     end
   end
