@@ -1,9 +1,11 @@
 Testapp::Application.routes.draw do
 
   
+
+
   root :to => 'users#index'
 
-
+  resources :vendors
 
 #  match "/users/:id/update" => "users#update"
 
