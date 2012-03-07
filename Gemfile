@@ -8,7 +8,7 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #gem 'mysql2', '< 0.3'
-gem 'mysql2', '~> 0.3.11'
+
 
 
 
@@ -31,6 +31,7 @@ group :development do
   gem 'spork'
   gem 'rspec-rails'
   gem 'delorean'
+  gem 'mysql2', '~> 0.3.11'
 end
 
 gem 'jquery-rails'
@@ -49,3 +50,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+group :development do
+  gem 'pg'
+end
