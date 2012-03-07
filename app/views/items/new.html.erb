@@ -1,0 +1,17 @@
+<% @page_title = 'Create Item' %>
+
+<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+
+<div class="item new">
+  <h2>Create Item</h2>
+
+  <%= form_for(:item, :url => {:action => 'create'}) do |f| %>
+
+    <%= render(:partial => 'form', :locals => {:f => f} ) %>
+  
+
+      <%= submit_tag 'Create Item', :class => "btn-primary" %>
+
+  
+  <% end %>
+</div>

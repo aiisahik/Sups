@@ -1,0 +1,20 @@
+<%= error_messages_for(@item) %>
+
+<table summary="Item form fields">
+  <tr>
+    <th><%= f.label(:name) %></th>
+    <td><%= f.text_field(:name) %></td>
+  </tr>
+  <tr>
+    <th><%= f.label(:description) %></th>
+     <td><%= f.radio_button(:description, 'image') %> Image
+     <%= f.radio_button(:description, 'text') %> Text </td>
+  </tr>
+  <tr>
+    <th><%= f.label(:image_link) %></th>
+    <td><%= f.text_field(:image_link) %></td>
+  </tr>
+
+</table>
+
+

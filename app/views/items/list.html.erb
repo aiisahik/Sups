@@ -1,0 +1,41 @@
+<% @page_title = "Items List" %>
+
+
+<h2>Items</h2>
+
+<%= link_to('Add New Item', {:action => 'new'}, :class => 'btn-primary') %>
+<p>
+<div><%= pluralize(@items.size, 'item') %> found</div>
+<p>
+
+<div class="row">
+  <div class="span8">
+      <table class="table table-striped table-bordered table-condensed">
+
+          <thead>
+              <tr>
+                <th width="50">ID</th>
+                <th width="150">Item Name</th>
+                <th width="150">Type</th>
+                <th width="150">View</th>
+                <th width="150">Actions </th>
+              </tr>
+          </thead>
+          <tbody>
+          <% @items.each do |item| %>
+              <tr>
+                <td><%= item.id %></td>
+                <td><%= item.name %> </td>
+                <td><%= item.description %></td>
+                <td><%= link_to('View Item', item.image_link) %></td>
+                <td><%= link_to('Edit', {:action => 'edit', :id => item.id}, :class => 'btn-primary') %>
+                  <%= link_to('Delete', {:action => 'delete', :id => item.id}, :class => 'btn-primary') %></td>
+              </tr>
+          <% end %>
+          </tbody>
+
+      </table>
+  </div>
+  <div class="span4"></div>
+</div>
+

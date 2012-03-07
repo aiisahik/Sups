@@ -1,0 +1,19 @@
+<% @page_title = "Delete Item: #{@item.name}" %>
+
+<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+
+<div class="item delete">
+  <h2>Delete Item</h2>
+  
+  <%= form_for(:item, :url => {:action => 'destroy', :id => @item.id}, :method => :delete) do |f| -%>
+
+    <p>Are you sure you want to permanently delete this item?</p>
+  
+    <p class="reference-name"><%= @item.name %></p>
+  
+
+      <%= submit_tag("Delete Item", :class => "btn-primary") %>
+
+    
+  <% end %>
+</div>
