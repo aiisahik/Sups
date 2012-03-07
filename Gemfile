@@ -26,6 +26,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'pg'
+
 group :development do
   gem 'heroku'
   gem 'spork'
@@ -50,6 +52,3 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-group :development do
-  gem 'pg'
-end
