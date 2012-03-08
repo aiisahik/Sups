@@ -10,8 +10,6 @@ gem 'rails', '3.2.1'
 #gem 'mysql2', '< 0.3'
 
 
-
-
 gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 
 gem 'unicorn'
@@ -26,8 +24,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'pg'
-
 group :development do
   gem 'heroku'
   gem 'spork'
@@ -37,6 +33,11 @@ group :development do
 end
 
 gem 'jquery-rails'
+
+group :production do
+  gem 'pg'
+end
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
