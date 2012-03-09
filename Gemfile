@@ -3,11 +3,14 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.1'
 #gem 'rails', '3.1.3'
 
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
+#gem 'mysql2', '< 0.3'
 
+
+gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 
 gem 'paperclip', '~> 2.3'
 
@@ -32,6 +35,7 @@ gem 'jquery-rails'
 
 group :production do
   gem 'pg'
+  gem 'unicorn'
 end
 
 
