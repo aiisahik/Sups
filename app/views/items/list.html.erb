@@ -17,7 +17,7 @@
                 <th width="50">ID</th>
                 <th width="150">Item Name</th>
                 <th width="150">Type</th>
-                <th width="150">View</th>
+                <th width="150">Notes</th>
                 <th width="150">Actions </th>
               </tr>
           </thead>
@@ -27,8 +27,9 @@
                 <td><%= item.id %></td>
                 <td><%= item.name %> </td>
                 <td><%= item.description %></td>
-                <td><%= link_to('View Item', item.image_link) %></td>
-                <td><%= link_to('Edit', {:action => 'edit', :id => item.id}, :class => 'btn-primary') %>
+                <td><%= item.note %></td>
+                <td><%= link_to('Show', {:action => 'show', :id => item.id}, :class => 'btn-primary')%>
+                <%= link_to('Edit', {:action => 'edit', :id => item.id}, :class => 'btn-primary') %>
                   <%= link_to('Delete', {:action => 'delete', :id => item.id}, :class => 'btn-primary') %></td>
               </tr>
           <% end %>

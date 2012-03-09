@@ -14,8 +14,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find params[:id]
-    render 'edit'
+    @item = Item.find(params[:id])
   end
 
   def new

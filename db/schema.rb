@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307065557) do
+ActiveRecord::Schema.define(:version => 20120309065102) do
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :null => false
@@ -49,11 +49,20 @@ ActiveRecord::Schema.define(:version => 20120307065557) do
   add_index "collections", ["user_id"], :name => "index_collections_on_user_id"
 
   create_table "items", :force => true do |t|
-    t.string   "name",        :null => false
-    t.integer  "description"
-    t.string   "image_link"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "name",                :null => false
+    t.string   "description"
+    t.string   "note"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "attach_file_name"
+    t.string   "attach_content_type"
+    t.integer  "attach_file_size"
+    t.datetime "attach_updated_at"
+    t.string   "pic_file_name"
+    t.string   "pic_content_type"
+    t.integer  "pic_file_size"
+    t.datetime "pic_updated_at"
+    t.string   "attach"
   end
 
   create_table "users", :force => true do |t|

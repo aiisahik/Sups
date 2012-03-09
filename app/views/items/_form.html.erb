@@ -7,14 +7,22 @@
   </tr>
   <tr>
     <th><%= f.label(:description) %></th>
-     <td><%= f.radio_button(:description, 'image') %> Image
-     <%= f.radio_button(:description, 'text') %> Text </td>
+     <td><%= f.radio_button(:description, 'Image') %> Image
+     <%= f.radio_button(:description, 'Text') %> Text </td>
   </tr>
   <tr>
-    <th><%= f.label(:image_link) %></th>
-    <td><%= f.text_field(:image_link) %></td>
+    <th><%= "Notes" %></th>
+    <td><%= f.text_area(:note) %></td>
+  </tr>
+
+  <tr>
+    <th><%= "Attachment" %></th>
+    <td><%= f.file_field(:attach) %></td>
+  </tr>
+
+   <tr>
+    <th><%= "Picture" %></th>
+    <td><%= f.file_field(:pic) %></td>
   </tr>
 
 </table>
-
-

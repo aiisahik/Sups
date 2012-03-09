@@ -1,0 +1,33 @@
+<%= link_to("<< Back to Items List", {:action => 'list'}, :class => 'back-link') %>
+
+<div class="item show">
+  <h2>Show Item</h2>
+
+  <table summary="Item detail view">
+    <tr>
+      <th>Name</th>
+      <td><%= @item.name %></td>
+    </tr>
+    <tr>
+      <th>Notes</th>
+      <td><%= @item.note %></td>
+    </tr>
+    <tr>
+      <th>File</th>
+      <td><a href="<%= @item.attach.url %> "> <b> File attached </b></a></td>
+    </tr>
+    <tr>
+      <th>Image</th>
+      <td><%= image_tag @item.pic.url(:thumb) %></td>
+    </tr>    
+    <tr>
+      <th>Created</th>
+      <td><%= @item.created_at %></td>
+    </tr>
+    <tr>
+      <th>Updated</th>
+      <td><%= @item.updated_at %></td>
+    </tr>
+  </table>
+  
+</div>
