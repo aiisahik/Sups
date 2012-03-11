@@ -8,27 +8,6 @@
 <div><%= pluralize(@items.size, 'item') %> found</div>
 <p>
 
-  
-<% #count = 1 %>
-  <% #if (count % 4) == 0 then %>
-
-<% #end  %>
-<div class="span12">
-  <ul class="thumbnails">
-    <% @items.each do |item| %>
-
-        <li class="span3">
-          <div class="thumbnail">
-            <a class="thumbnail" href="items/show/<%= item.id%>">
-              <%= image_tag item.pic.url(:medium) %> </a>
-              <h5><%= item.name %></h5>
-          </div>
-        </li>
-    <% end %>
-  </ul>
-</div>
-
-
 <div class="row">
   <div class="span12">
       <table class="table table-striped table-bordered table-condensed">

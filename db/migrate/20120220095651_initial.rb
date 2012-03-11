@@ -8,8 +8,8 @@ class Initial < ActiveRecord::Migration
 
     create_table :items do |t|
       t.string :name, :null => false
-      t.integer :description
-      t.string :image_link
+      t.string :description
+      t.string :note
       t.timestamps
     end
 

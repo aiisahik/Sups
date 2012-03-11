@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(:version => 20120309065102) do
     t.string   "pic_content_type"
     t.integer  "pic_file_size"
     t.datetime "pic_updated_at"
-    t.string   "attach"
   end
 
   create_table "users", :force => true do |t|

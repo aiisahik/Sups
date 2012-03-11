@@ -4,6 +4,11 @@ class AddAttachPaperclip < ActiveRecord::Migration
     add_column :items, :attach_content_type, :string
     add_column :items, :attach_file_size,    :integer
     add_column :items, :attach_updated_at,   :datetime
+
+    add_column :items, :pic_file_name,    :string
+    add_column :items, :pic_content_type, :string
+    add_column :items, :pic_file_size,    :integer
+    add_column :items, :pic_updated_at,   :datetime
   end
 
   def down
@@ -11,5 +16,10 @@ class AddAttachPaperclip < ActiveRecord::Migration
     remove_column :items, :attach_content_type
     remove_column :items, :attach_file_size
     remove_column :items, :attach_updated_at
+
+    remove_column :items, :pic_file_name
+    remove_column :items, :pic_content_type
+    remove_column :items, :pic_file_size
+    remove_column :items, :pic_updated_at
   end
 end
