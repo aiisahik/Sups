@@ -9,6 +9,7 @@ gem 'rails', '3.2.1'
 
 #gem 'mysql2', '< 0.3'
 
+gem 'acts-as-taggable-on', '~>2.2.0'
 
 gem 'rails_admin', :git => "git://github.com/sferik/rails_admin.git"
 

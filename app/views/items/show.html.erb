@@ -21,6 +21,14 @@
       <td><%= image_tag @item.pic.url(:original) %></td>
     </tr>    
     <tr>
+      <th>Tags</th>
+      <td><%= @item.tag_list %></td>
+    </tr>    
+    <tr>
+      <th>Events</th>
+      <td><%= @item.event_list %></td>
+    </tr>    
+    <tr>
       <th>Created</th>
       <td><%= @item.created_at %></td>
     </tr>

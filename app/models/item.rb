@@ -11,4 +11,8 @@ class Item < ActiveRecord::Base
              { :medium => "300x300>", :thumb => "100x100>" }
   has_attached_file :attach
 
+  acts_as_taggable
+  acts_as_taggable_on :tags, :events
+  belongs_to :user
+
 end

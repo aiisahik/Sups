@@ -4,13 +4,25 @@ class ItemsController < ApplicationController
 
   #before_filter :confirm_logged_in
 
+  
+  def tag_cloud
+    @tags = Item.tag_counts_on(:tags) || []
+  end
+
   def index
     list
+    @items = Item.all
     render('list')
   end
 
   def list
+    if ((params[:tag_name] != "") || (params[:event_name] != ""))
+    @items = Item.tagged_with(params[:tag_name]) + Item.tagged_with(params[:event_name])
+    else
     @items = Item.all
+    end
+    @tags = Item.tag_counts_on(:tags) || []
+    @events = Item.tag_counts_on(:events) || []
   end
 
   def show

@@ -14,7 +14,14 @@
     <th><%= "Notes" %></th>
     <td><%= f.text_area(:note) %></td>
   </tr>
-
+  <tr>
+    <th><%= "Tags" %></th>
+    <td><%= f.text_field(:tag_list) %></td>
+  </tr>
+  <tr>
+    <th><%= "Events" %></th>
+    <td><%= f.text_field(:event_list) %></td>
+  </tr>
   <tr>
     <th><%= "Attachment" %></th>
     <td><%= f.file_field(:attach) %></td>

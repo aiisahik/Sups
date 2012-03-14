@@ -1,18 +1,19 @@
 <% @page_title = "Items List" %>
 
-
 <h2>Items</h2>
-
+<%= link_to('Back to list', {:action => 'index'}) %>
+<p>
 <%= link_to('Add New Item', {:action => 'new'}, :class => 'btn-primary') %>
+</p>
 <p>
 <div><%= pluralize(@items.size, 'item') %> found</div>
 <p>
 
-  
-<% #count = 1 %>
-  <% #if (count % 4) == 0 then %>
+<%= form_for(:tag, :url => {:action => 'list'}, :method => 'GET') do |f| %>
+<%= select_tag :tag_name, options_from_collection_for_select(@tags, "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
+<%= select_tag :event_name, options_from_collection_for_select(@events, "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
+<% end %>
 
-<% #end  %>
 <div class="span12">
   <ul class="thumbnails">
     <% @items.each do |item| %>
@@ -22,11 +23,15 @@
             <a class="thumbnail" href="items/show/<%= item.id%>">
               <%= image_tag item.pic.url(:medium) %> </a>
               <h5><%= item.name %></h5>
+              <h5><%= item.note %></h5>
+              <h5><%= item.tag_list %></h5>
+              <h5><%= item.event_list %></h5>
           </div>
         </li>
     <% end %>
   </ul>
 </div>
+
 
 
 <div class="row">
@@ -39,6 +44,8 @@
                 <th width="150">Item Name</th>
                 <th width="150">Type</th>
                 <th width="150">Notes</th>
+                <th width="150">Tags</th>
+                <th width="150">Events</th>
                 <th width="150">Actions </th>
               </tr>
           </thead>
@@ -49,15 +56,17 @@
                 <td><%= item.name %> </td>
                 <td><%= item.description %></td>
                 <td><%= item.note %></td>
-                <td><%= link_to('Show', {:action => 'show', :id => item.id}, :class => 'btn-primary')%>
+                <td><%= item.tag_list %></td>
+                <td><%= item.event_list %></td>
+                <td>
+                <%= link_to('Show',{:action => 'show', :id => item.id}, :class => 'btn-primary')%> 
                 <%= link_to('Edit', {:action => 'edit', :id => item.id}, :class => 'btn-primary') %>
                   <%= link_to('Delete', {:action => 'delete', :id => item.id}, :class => 'btn-primary') %></td>
               </tr>
           <% end %>
           </tbody>
-
       </table>
+
   </div>
   <div class="span4"></div>
 </div>
-
