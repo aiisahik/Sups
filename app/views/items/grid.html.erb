@@ -1,0 +1,147 @@
+<% @page_title = "Items List" %>
+
+<h2>Items</h2>
+<%= link_to('Back to list', {:action => 'grid', :group_name => ""}) %>
+
+<ul class="nav nav-pills">
+<h3> My Collections </h3>
+<%if (params[:group_name] == "") %>
+  <li class = "active">
+  <%else%>
+  <li>
+  <%end%>
+  <%= link_to "All", :action => 'grid', :group_name => ""%>
+  </li>
+  
+  <% if @groups != [] %>
+<% @groups.each do |group| %>
+<%if (params[:group_name] == group.name)%>
+  <li class = "active">
+  <%else%>
+  <li>
+  <%end%>
+<%= link_to group.name, :action => 'grid', :group_name => group.name %>
+</li>
+  <%end%>
+<%end%>
+
+</ul> 
+
+
+<div class="tab-content">
+
+
+<%if (params[:group_name] == "") %>
+
+    <p>
+    <%= link_to('Add New Item', {:action => 'new'}, :class => 'btn-primary') %>
+    </p>
+
+    <div>
+    <%= link_to(image_tag('icon_list.png'), {:action => 'list', :group_name => ""}) %>
+    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :group_name => ""}) %>
+    
+    </div>
+           
+    <p>
+    <div><%= pluralize(@items.size, 'item') %> found</div>
+    </p>
+
+    <%= form_for(:tag, :url => {:action => 'grid'}, :method => 'GET') do |f| %>
+        <%= select_tag :tag_name, options_from_collection_for_select(@tags, "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
+        <%= select_tag :event_name, options_from_collection_for_select(@events, "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
+        <%= select_tag :description, options_for_select(["Image", "Text"]), :prompt => 'Filter by Type', :onchange => 'submit()'%>
+        
+        <%= hidden_field_tag 'group_name', "" %>
+
+        <% if (params[:starred] == "1") %>
+          <%= link_to('Show All Items', {:action => 'grid', :group_name => ""}, :class => 'btn-primary') %>
+        <%else%> 
+          <%= link_to('Show Starred Items', {:action => 'grid', :group_name => "", :starred => 1}, :class => 'btn-primary') %>
+        <%end%>
+    <% end %>
+
+
+<%else%>
+
+    <p>
+    <%= link_to('Add New Item', {:action => 'new', :group_name => params[:group_name]}, :class => 'btn-primary') %>
+    </p>
+
+    <div>
+    <%= link_to(image_tag('icon_list.png'), {:action => 'list', :group_name => params[:group_name]}) %>
+    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :group_name => params[:group_name]}) %>
+    </div>
+           
+    <p>
+    <div><%= pluralize(@items.size, 'item') %> found</div>
+    </p>
+
+    <%= form_for(:tag, :url => {:action => 'grid'}, :method => 'get')  do |f| %>
+        
+        <%= select_tag :tag_name, options_from_collection_for_select(@tags, "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
+        <%= select_tag :event_name, options_from_collection_for_select(@events, "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
+        <%= select_tag :description, options_for_select(["Image", "Text"]), :prompt => 'Filter by Type', :onchange => 'submit()' %>
+
+        <%= hidden_field_tag 'group_name', @group_name %>
+
+        <% if (params[:starred] == "1") %>
+          <%= link_to('Show All Items', {:action => 'grid', :group_name => params[:group_name]}, :class => 'btn-primary') %>
+        <%else%> 
+            <%= link_to('Show Starred Items', {:action => 'grid', :starred => 1, :group_name => params[:group_name]}, :class => 'btn-primary') %>
+        <%end%>
+    <%end%>
+<%end%>
+
+<div class="span12">
+  <ul class="thumbnails">
+    <% @items.each do |item| %>
+
+        <li class="span3">
+          <div class="thumbnail" >
+            <% if (item.description == 'Image') %>
+            <a class="thumbnail" href="items/show/<%= item.id%>" >
+              <%= image_tag item.pic.url(:medium) %> </a>
+              <%else%>
+              <hs>
+<a class="thumbnail" href="items/show/<%= item.id%>" style="color: rgb(0,0,0)">
+<%= truncate(item.note, :length => 20) %> </a> </br></h5>
+              <%end%>
+
+              <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :group_name => params[:group_name]})%> 
+                <%= link_to(image_tag('onebit_20.png', :size => "15x15"), {:action => 'edit', :id => item.id, :group_name => params[:group_name]}) %>
+                  <%= link_to(image_tag('delete.png', :size => "15x15"), {:action => 'delete', :id => item.id, :group_name => params[:group_name]}) %>
+                  </h5>
+
+              <h5><%= item.name %></h5>
+              <h5><%= item.tag_list %></h5>
+              <h5><%= item.event_list %></h5>
+              <h5>
+              <%= form_for(:item, :url => {:action => 'update', :id => item.id, :group_name => params[:group_name]}, :method => 'PUT') do |f| %>
+              <%if (item.starred == true) %>
+                <table>
+              <tr>
+                <th><%= f.label :starred, image_tag('yellow-star1.png', :size => "25x25"), {:for => item.id} %></th>
+                <td><%= f.check_box :starred, {:onchange => 'submit()', :checked => true, :id => item.id}, "yes", "no" %></td>
+                </tr>
+                </table>
+              <% else %>
+              <table>
+              <tr>
+                <th><%=f.label :starred, image_tag('star_silver.png', :size => "25x25", :mouseover => 'yellow-star1.png'), {:for => item.id} %></th>
+                <td><%= f.check_box :starred, {:onchange => 'submit()', :checked => false, :id => item.id} %></td>
+                </tr>
+                </table>
+              <% end %>
+              <% end %>
+                </h5>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>
+
+
+
+</div>
+

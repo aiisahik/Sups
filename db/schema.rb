@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313175429) do
+ActiveRecord::Schema.define(:version => 20120317050919) do
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :null => false
@@ -49,11 +49,11 @@ ActiveRecord::Schema.define(:version => 20120313175429) do
   add_index "collections", ["user_id"], :name => "index_collections_on_user_id"
 
   create_table "items", :force => true do |t|
-    t.string   "name",                :null => false
+    t.string   "name",                                   :null => false
     t.string   "description"
     t.string   "note"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "attach_file_name"
     t.string   "attach_content_type"
     t.integer  "attach_file_size"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20120313175429) do
     t.integer  "pic_file_size"
     t.datetime "pic_updated_at"
     t.string   "attach"
+    t.boolean  "starred",             :default => false
   end
 
   create_table "taggings", :force => true do |t|

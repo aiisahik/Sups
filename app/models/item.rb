@@ -2,7 +2,7 @@ class Item < ActiveRecord::Base
 
   has_many :category_items
   has_many :categories, :through => :category_items
-  belongs_to :vendor
+  belongs_to :collections
   
   validates :name, :presence => true
   validates :description, :presence => true
@@ -12,7 +12,7 @@ class Item < ActiveRecord::Base
   has_attached_file :attach
 
   acts_as_taggable
-  acts_as_taggable_on :tags, :events
-  belongs_to :user
+  acts_as_taggable_on :tags, :events, :groups
+
 
 end

@@ -1,6 +1,6 @@
 <% @page_title = "Delete Item: #{@item.name}" %>
 
-<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
 
 <div class="item delete">
   <h2>Delete Item</h2>

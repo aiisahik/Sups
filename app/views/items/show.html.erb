@@ -1,4 +1,4 @@
-<%= link_to("<< Back to Items List", {:action => 'list'}, :class => 'back-link') %>
+<%= link_to("<< Back to Items List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
 
 <div class="item show">
   <h2>Show Item</h2>
@@ -28,6 +28,10 @@
       <th>Events</th>
       <td><%= @item.event_list %></td>
     </tr>    
+    <tr>
+      <th>Collections</th>
+      <td><%= @item.group_list %></td>
+    </tr> 
     <tr>
       <th>Created</th>
       <td><%= @item.created_at %></td>

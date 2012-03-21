@@ -23,13 +23,25 @@
     <td><%= f.text_field(:event_list) %></td>
   </tr>
   <tr>
+    <th><%= "Groups" %></th>
+    <% if params[:group_name] != "" %>
+    <td><%= f.text_field(:group_list, :value => params[:group_name] ) %></td>
+    <% else %>
+    <td><%= f.text_field(:group_list) %></td>
+    <%end%>
+  </tr>
     <th><%= "Attachment" %></th>
     <td><%= f.file_field(:attach) %></td>
+    <% if @item.attach.exists? %>
+    <td><a href="<%= @item.attach.url %> "> <b> <%= @item.attach_file_name %> </b></td>
+    <%end%>
   </tr>
-
    <tr>
     <th><%= "Picture" %></th>
     <td><%= f.file_field(:pic) %></td>
+    <% if @item.pic.exists? %>
+    <td><%= image_tag @item.pic.url(:thumb) %></td>
+    <%end%>
   </tr>
 
 </table>

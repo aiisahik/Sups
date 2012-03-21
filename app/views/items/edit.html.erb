@@ -1,7 +1,7 @@
 <% @page_title = "Edit Item: #{@item.name}" -%>
 
 <%#= link_to("<< Back to List", {:action => 'list'}, :class => 'back-link') %>
-<%= link_to("<< Back to List", {:action =>'index'}) %>
+<%= link_to("<< Back to List", {:action =>'list', :group_name => params[:group_name]}) %>
 
 <div class="item edit">
   <h2>Edit Item</h2>

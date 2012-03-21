@@ -1,6 +1,6 @@
 <% @page_title = 'Create Item' %>
 
-<%= link_to("<< Back to List", {:action => 'index'}, :class => 'back-link') %>
+<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
 
 <div class="item new">
   <h2>Create Item</h2>
