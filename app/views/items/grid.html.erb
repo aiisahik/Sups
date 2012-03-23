@@ -39,7 +39,7 @@
     <table width=670px> 
     <tr>
     <td>
-    <%= link_to('Add New Item', {:action => 'new', :group_name => ""}, :class => 'btn-primary') %>
+    <%= link_to('Add New Item', {:action => 'new', :group_name => "", :action_name => "grid"}, :class => 'btn-primary') %>
     <%= pluralize(@items.size, 'item') %> found
     </td>
     <td align=right>
@@ -74,7 +74,7 @@
 <table width=670px> 
     <tr>
     <td>
-    <%= link_to('Add New Item', {:action => 'new', :group_name => params[:group_name]}, :class => 'btn-primary') %>
+    <%= link_to('Add New Item', {:action => 'new', :group_name => params[:group_name], :action_name => "grid"}, :class => 'btn-primary') %>
     <%= pluralize(@items.size, 'item') %> found
     </td>
     <td align=right>
@@ -115,12 +115,12 @@
         <li class="span3">
           <div class="thumbnail" >
             <% if (item.description == 'Image') %>
-            <a class="thumbnail" href="items/show/<%= item.id%>" >
-              <%= image_tag item.pic.url(:medium) %> </a>
+              <%= link_to (image_tag item.pic.url(:medium)), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
               <%else%>
               <hs>
-<a class="thumbnail" href="items/show/<%= item.id%>" style="color: rgb(0,0,0)">
-<%= truncate(item.note, :length => 20) %> </a> </br></h5>
+
+              <%= link_to (truncate(item.note, :length => 20)), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+</br></h5>
               <%end%>
 
               <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"})%> 

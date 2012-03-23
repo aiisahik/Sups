@@ -105,7 +105,11 @@ class ItemsController < ApplicationController
       flash[:notice] = 'Item created!'
       #redirect_to @item, :notice => :default
       #redirect_to(:action => 'list')
-      redirect_to(:action => 'list', :group_name => params[:group_name])
+      if (params[:action_name] == 'grid')
+        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+      else
+        redirect_to(:action => 'list', :group_name => params[:group_name])
+      end
     else
       render("new")
     end
