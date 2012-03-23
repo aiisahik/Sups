@@ -123,16 +123,16 @@
 <%= truncate(item.note, :length => 20) %> </a> </br></h5>
               <%end%>
 
-              <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :group_name => params[:group_name]})%> 
-                <%= link_to(image_tag('onebit_20.png', :size => "15x15"), {:action => 'edit', :id => item.id, :group_name => params[:group_name]}) %>
-                  <%= link_to(image_tag('delete.png', :size => "15x15"), {:action => 'delete', :id => item.id, :group_name => params[:group_name]}) %>
+              <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"})%> 
+                <%= link_to(image_tag('onebit_20.png', :size => "15x15"), {:action => 'edit', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}) %>
+                  <%= link_to(image_tag('delete.png', :size => "15x15"), {:action => 'delete', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}) %>
                   </h5>
 
               <h5><%= item.name %></h5>
               <h5><%= item.tag_list %></h5>
               <h5><%= item.event_list %></h5>
               <h5>
-              <%= form_for(:item, :url => {:action => 'update', :id => item.id, :group_name => params[:group_name]}, :method => 'PUT') do |f| %>
+              <%= form_for(:item, :url => {:action => 'update', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, :method => 'PUT') do |f| %>
               <%if (item.starred == true) %>
                 <table>
               <tr>

@@ -126,7 +126,11 @@ class ItemsController < ApplicationController
       flash[:notice] = 'Item updated.'
       #redirect_to @item, :notice => :default
       #redirect_to item_path(@item.id), :notice => :default
-      redirect_to(:action => 'list', :group_name => params[:group_name])
+      if (params[:action_name] == 'grid')
+        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+      else
+        redirect_to(:action => 'list', :group_name => params[:group_name])
+      end
 
     else
       flash[:notice] = 'failed'
@@ -142,7 +146,12 @@ class ItemsController < ApplicationController
   def destroy
     Item.find(params[:id]).destroy
     flash[:notice] = "Item destroyed."
-    redirect_to(:action => 'list', :group_name => "")
+      if (params[:action_name] == 'grid')
+        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+      else
+        redirect_to(:action => 'list', :group_name => params[:group_name])
+      end
+
   end
 
 end

@@ -1,5 +1,8 @@
-<%= link_to("<< Back to Items List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
-
+<% if (params[:action_name] == "grid") %>
+<%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %>
+<%else%>
+<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
+<%end%>
 <div class="item show">
   <h2>Show Item</h2>
 
@@ -14,11 +17,15 @@
     </tr>
     <tr>
       <th>File</th>
-      <td><a href="<%= @item.attach.url %> "> <b> File attached </b></a></td>
+    <% if @item.attach.exists? %>
+    <td><a href="<%= @item.attach.url %> "> <b> <%= @item.attach_file_name %> </b></td>
+    <%end%>
     </tr>
     <tr>
       <th>Image</th>
+      <% if @item.pic.exists? %>
       <td><%= image_tag @item.pic.url(:original) %></td>
+      <% end %>
     </tr>    
     <tr>
       <th>Tags</th>

@@ -1,6 +1,12 @@
 <% @page_title = "Delete Item: #{@item.name}" %>
 
+
+<% if (params[:action_name] == "grid") %>
+<%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %>
+<%else%>
 <%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
+<%end%>
+
 
 <div class="item delete">
   <h2>Delete Item</h2>
@@ -10,7 +16,9 @@
     <p>Are you sure you want to permanently delete this item?</p>
   
     <p class="reference-name"><%= @item.name %></p>
-  
+
+     <%= hidden_field_tag 'action_name', params[:action_name] %>
+     <%= hidden_field_tag 'group_name', params[:group_name] %>
 
       <%= submit_tag("Delete Item", :class => "btn-primary") %>
 

@@ -43,5 +43,6 @@
     <td><%= image_tag @item.pic.url(:thumb) %></td>
     <%end%>
   </tr>
+  <%= hidden_field_tag 'action_name', params[:action_name] %>
 
 </table>
