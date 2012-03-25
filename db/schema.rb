@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(:version => 20120325053013) do
     t.string   "pic_content_type"
     t.integer  "pic_file_size"
     t.datetime "pic_updated_at"
-    t.string   "attach"
     t.boolean  "starred",             :default => false
     t.string   "image_remote_url"
     t.string   "image_file_name"
