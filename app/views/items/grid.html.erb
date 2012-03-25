@@ -115,7 +115,12 @@
         <li class="span3">
           <div class="thumbnail" >
             <% if (item.description == 'Image') %>
+             <% if item.pic.exists? %>
               <%= link_to (image_tag item.pic.url(:medium)), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+              <%end%>
+              <% if !item.image_remote_url.blank? %>
+              <%= link_to (image_tag item.image_remote_url), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+              <%end%>
               <%else%>
               <hs>
 

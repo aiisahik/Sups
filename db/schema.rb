@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317050919) do
+ActiveRecord::Schema.define(:version => 20120325053013) do
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :null => false
@@ -64,6 +64,11 @@ ActiveRecord::Schema.define(:version => 20120317050919) do
     t.datetime "pic_updated_at"
     t.string   "attach"
     t.boolean  "starred",             :default => false
+    t.string   "image_remote_url"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "taggings", :force => true do |t|

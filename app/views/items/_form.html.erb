@@ -38,9 +38,21 @@
   </tr>
    <tr>
     <th><%= "Picture" %></th>
-    <td><%= f.file_field(:pic) %></td>
+    <td><%= "From File:" %>
+    <%= f.file_field(:pic) %></td>
+    </tr>
+    <tr>
+    <th><% "Picture" %></th>
+    <th><%= "From URL" %>
+    <%= f.url_field(:image_remote_url) %> </th>
+    </tr>
+    <tr>
+    <th><% "Current Picture" %></th>
     <% if @item.pic.exists? %>
     <td><%= image_tag @item.pic.url(:thumb) %></td>
+    <%end%>
+    <% if !@item.image_remote_url.blank? %>
+    <td><%= image_tag @item.image_remote_url, {:size => "100x100"} %></td>
     <%end%>
   </tr>
   <%= hidden_field_tag 'action_name', params[:action_name] %>

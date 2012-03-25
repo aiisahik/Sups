@@ -4,7 +4,10 @@ class ItemsController < ApplicationController
 
   #before_filter :confirm_logged_in
 
-  
+  def image_from_url(url)
+    self.image = open(url)
+  end
+
   def tag_cloud
     @tags = Item.tag_counts_on(:tags) || []
   end
@@ -87,9 +90,13 @@ class ItemsController < ApplicationController
     @events = Item.tag_counts_on(:events) || []
     @groups = Item.tag_counts_on(:groups) || []
     @group_name = params[:group_name] || ""
+    #@image = Item.image_from_url(:image_remote_url)
 
 
     end 
+  
+
+
 
   def show
     @item = Item.find(params[:id])

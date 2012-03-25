@@ -26,6 +26,9 @@
       <% if @item.pic.exists? %>
       <td><%= image_tag @item.pic.url(:original) %></td>
       <% end %>
+       <% if !@item.image_remote_url.blank? %>
+    <td><%= image_tag @item.image_remote_url%> </td>
+    <% end %>
     </tr>    
     <tr>
       <th>Tags</th>
