@@ -5,59 +5,61 @@
 
 
 <% if (params[:action_name] == "grid") %>
-<%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %>
+<%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'btn-pink') %>
 <%else%>
-<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
+<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'btn-pink') %>
 <%end%>
-<div class="item show">
-  <h2>Show Item</h2>
 
-  <table summary="Item detail view">
-    <tr>
-      <th>Name</th>
-      <td><%= @item.name %></td>
-    </tr>
-    <tr>
-      <th>Notes</th>
-      <td><%= @item.note %></td>
-    </tr>
-    <tr>
-      <th>File</th>
+
+<table style="margin: 0px auto;">
+  <tr>
+  <td>
+    <h1><%= @item.name %></h1>
     <% if @item.attach.exists? %>
-    <td><a href="<%= @item.attach.url %> "> <b> <%= @item.attach_file_name %> </b></td>
-    <%end%>
-    </tr>
-    <tr>
-      <th>Image</th>
+        <a href="<%= @item.attach.url %> "> <b> <%= @item.attach_file_name %> </b>
+        <% end %>
       <% if @item.pic.exists? %>
-      <td><%= image_tag @item.pic.url(:original) %></td>
-      <% end %>
+          <%= image_tag @item.pic.url(:original), {:class=>"thumbnail"} %>
+                     <% end %>
        <% if !@item.image_remote_url.blank? %>
-    <td><%= image_tag @item.image_remote_url%> </td>
-    <% end %>
-    </tr>    
+          <%= image_tag @item.image_remote_url, {:class=>"thumbnail"} %>
+      <% end %>
+      </td>
+    </tr>   
+    
     <tr>
-      <th>Tags</th>
-      <td><%= @item.tag_list %></td>
-    </tr>    
+  <td><%= @item.note %><br><%= @item.tag_list %><br><%= @item.created_at.to_formatted_s(:long_ordinal) %></td>
+  </tr>
+    
+
+    
     <tr>
       <th>Events</th>
       <td><%= @item.event_list %></td>
     </tr>    
+    
     <tr>
       <th>Collections</th>
       <td><%= @item.group_list %></td>
     </tr> 
+    
     <tr>
       <th>Created</th>
       <td><%= @item.created_at %></td>
     </tr>
+    
     <tr>
       <th>Updated</th>
       <td><%= @item.updated_at %></td>
     </tr>
-  </table>
+ 
+
+    
+</table>
   
 </div>
 
+
 <%end%>
+
+

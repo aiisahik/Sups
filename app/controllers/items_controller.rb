@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
 
   def index
     list
-    @items = Item.where(:user_id => current_user.id)
+    @items = Item.where(:user_id => current_user.id).drop(1)
     render('list')
   end
 
@@ -24,9 +24,13 @@ class ItemsController < ApplicationController
         @items = Item.where(:starred => true).where(:user_id => current_user.id)
       else 
         if ((params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil))
-          @items = [Item.where(:user_id => current_user.id)].drop(1)
+          @items = Item.where(:user_id => current_user.id).drop(1)
         else
-         @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          if (params[:description] == "Text")
+            @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id).drop(1) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          else
+            @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          end  
         end
       end
     
@@ -36,11 +40,17 @@ class ItemsController < ApplicationController
         @items = Item.tagged_with(params[:collection_name]).where(:starred => true).where(:user_id => current_user.id).uniq
       else 
         if (params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil)
-            @items = [Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq].drop(1)
+            @items = Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq.drop(1)
         else 
+          if (params[:description] == "Text")
             @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
             Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq.drop(1)
+          else 
+          @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
             Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq
+          end        
         end
       end
 
@@ -62,17 +72,20 @@ class ItemsController < ApplicationController
 
     def grid 
 
-  
-   if (params[:collection_name] == nil) || (params[:collection_name] == "") 
+if (params[:collection_name] == nil) || (params[:collection_name] == "") 
    
 
       if (params[:starred] == "1")
         @items = Item.where(:starred => true).where(:user_id => current_user.id)
       else 
         if ((params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil))
-          @items = [Item.where(:user_id => current_user.id)].drop(1)
+          @items = Item.where(:user_id => current_user.id).drop(1)
         else
-         @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          if (params[:description] == "Text")
+            @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id).drop(1) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          else
+            @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+          end  
         end
       end
     
@@ -82,11 +95,17 @@ class ItemsController < ApplicationController
         @items = Item.tagged_with(params[:collection_name]).where(:starred => true).where(:user_id => current_user.id).uniq
       else 
         if (params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil)
-            @items = [Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq].drop(1)
+            @items = Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq.drop(1)
         else 
+          if (params[:description] == "Text")
             @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
             Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq.drop(1)
+          else 
+          @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
             Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq
+          end        
         end
       end
 
@@ -98,9 +117,12 @@ class ItemsController < ApplicationController
     @groups = Item.tag_counts_on(:groups) || []
     @group_name = params[:collection_name] || ""
     @item = Item.where(:user_id => current_user.id).first
- 
+   
 
     end 
+  
+
+
 
   def show
     @item = Item.find(params[:id])
