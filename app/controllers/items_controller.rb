@@ -61,7 +61,7 @@ class ItemsController < ApplicationController
     @events = Item.tag_counts_on(:events) || []
     @groups = Item.tag_counts_on(:groups) || []
     @group_name = params[:collection_name] || ""
-    @item = Item.where(:user_id => current_user.id).first
+    @item = Item.where(:user_id => current_user.id).first || []
    
 
     end 
