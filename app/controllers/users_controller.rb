@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  #layout 'admin'
+  layout 'admin'
 
-  #before_filter :confirm_logged_in
+  before_filter :confirm_logged_in, :except => [:new, :create]
 
   def index
     list
@@ -28,11 +28,13 @@ class UsersController < ApplicationController
       flash[:notice] = 'User created!'
       #redirect_to @user, :notice => :default
       #redirect_to(:action => 'list')
-      redirect_to(:action => 'index')
+      redirect_to(:controller => 'items', :action => 'createinitial', :user_id => @user.id)
     else
       render("new")
     end
   end
+
+
 
   def edit
     @user = User.find(params[:id])
@@ -48,7 +50,7 @@ class UsersController < ApplicationController
       redirect_to(:action => 'index')
 
     else
-      flash[:notice] = 'Massive FAIL again'
+      flash[:notice] = 'Failed'
       render("list")
     end
   end

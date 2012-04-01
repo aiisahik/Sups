@@ -1,9 +1,9 @@
 Testapp::Application.routes.draw do
 
   
+  root :to => 'access#login'
 
-
-  root :to => 'users#index'
+    match 'admin', :to => 'access#menu'
 
   resources :vendors
 

@@ -1,5 +1,8 @@
 <% @page_title = "Delete Item: #{@item.name}" %>
 
+<% if current_user.id != @item.user_id %>
+<h2> Oops! This item doesn't belong to you. <br> <br><%= link_to("Go back to your Items", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %> </h2>
+<%else%>
 
 <% if (params[:action_name] == "grid") %>
 <%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %>
@@ -25,3 +28,5 @@
     
   <% end %>
 </div>
+
+<%end%>

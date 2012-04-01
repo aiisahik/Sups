@@ -12,7 +12,6 @@
   <%= form_for(:item, :url => {:action => 'create'}, :multipart => true ) do |f| %>
 
     <%= render(:partial => 'form', :locals => {:f => f} ) %>
-  
 
       <%= submit_tag 'Create Item', :class => "btn-primary" %>
 

@@ -1,9 +1,28 @@
 <%= error_messages_for(@item) %>
 
+<% if @item == @items.first %> 
+
+<table summary="Item form fields">
+    <tr>
+    <td><h3><%= "Collections" %></h3></td>
+    </tr><tr>
+    <td><%= f.text_field(:group_list) %></td>
+    </tr>
+    <tr>
+    <td><%= "Comma-separated list i.e. (Collection 1, Collection 2, ...)" %></td>
+    </tr>
+  <%= hidden_field_tag 'action_name', params[:action_name] %>
+</table>
+
+<%else%>
+
 <table summary="Item form fields">
   <tr>
     <th><%= f.label(:name) %></th>
     <td><%= f.text_field(:name) %></td>
+  </tr>
+  <tr>
+    <td><%= f.hidden_field(:user_id, :value => current_user.id) %></td>
   </tr>
   <tr>
     <th><%= f.label(:description) %></th>
@@ -24,10 +43,10 @@
   </tr>
   <tr>
     <th><%= "Groups" %></th>
-    <% if params[:group_name] != "" %>
-    <td><%= f.text_field(:group_list, :value => params[:group_name] ) %></td>
+    <% if params[:collection_name] != "" %>
+    <td><%= f.select(:group_list, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "groups"), "name", "name"), :prompt => "Choose Collection") %></td>
     <% else %>
-    <td><%= f.text_field(:group_list) %></td>
+    <td><%= f.select(:group_list, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "groups"), "name", "name"), :prompt => "Choose Collection") %></td>
     <%end%>
   </tr>
     <th><%= "Attachment" %></th>
@@ -56,6 +75,13 @@
     <%end%>
   </tr>
   <%= hidden_field_tag 'action_name', params[:action_name] %>
-<%= hidden_field_tag 'group_name', params[:group_name] %>
+<%= hidden_field_tag 'collection_name', params[:collection_name] %>
+
+
+
 
 </table>
+
+
+
+<%end%>

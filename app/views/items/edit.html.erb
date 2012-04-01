@@ -1,4 +1,8 @@
-<% @page_title = "Edit Item: #{@item.name}" -%>
+<% @page_title = "Edit" -%>
+
+<% if current_user.id != @item.user_id %>
+<h2> Oops! This item doesn't belong to you. <br> <br><%= link_to("Go back to your Items", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %> </h2>
+<%else%>
 
 <%#= link_to("<< Back to List", {:action => 'list'}, :class => 'back-link') %>
 <% if (params[:action_name] == "grid") %>
@@ -8,14 +12,16 @@
 <%end%>
 
 <div class="item edit">
-  <h2>Edit Item</h2>
+  <h2>Edit</h2>
 
   <%= form_for(:item, :url => {:action => 'update', :id => @item.id}, :method => 'PUT') do |f| %>
     
   	<%= render(:partial => 'form', :locals => {:f => f} ) %>
 	
 
-  	  <%= submit_tag('Update Item', :class => "btn-primary") %>
+  	  <%= submit_tag('Update', :class => "btn-primary") %>
 
   <% end %>
 </div>
+
+<%end%>

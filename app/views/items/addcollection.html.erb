@@ -1,0 +1,36 @@
+<% @page_title = "Add New Collection" -%>
+
+<%#= link_to("<< Back to List", {:action => 'list'}, :class => 'back-link') %>
+<% if (params[:action_name] == "grid") %>
+<%= link_to("<< Back to List", {:action => params[:action_name], :group_name => params[:group_name]}, :class => 'back-link') %>
+<%else%>
+<%= link_to("<< Back to List", {:action => 'list', :group_name => params[:group_name]}, :class => 'back-link') %>
+<%end%>
+
+<div class="item edit">
+  <h2>Edit Item</h2>
+  <h2> Exisiting Collections </h2>
+  <% @groups.each do |group| %>
+  <%= group.name %>
+  <%end%>
+
+  <h2> Add Collections </h2>
+  
+  <%= form_for(:items, :url => {:action => 'update', :id => 0}, :method => 'PUT') do |f| %>
+    
+  <table summary="Item form fields">
+  <tr>
+    <th><%= f.label(:group_list) %></th>
+    <td><%= f.text_field(:group_list) %></td>
+  </tr>
+  </table>
+  
+
+      <%= submit_tag('Add Collection', :class => "btn-primary") %>
+
+  <% end %>
+
+
+
+
+</div>

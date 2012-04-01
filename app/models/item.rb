@@ -4,10 +4,12 @@ class Item < ActiveRecord::Base
 
   has_many :category_items
   has_many :categories, :through => :category_items
-  belongs_to :collections
+  belongs_to :users
   
   validates :name, :presence => true
   validates :description, :presence => true
+
+  validates_uniqueness_of :id
   
   has_attached_file :pic, :styles =>
              { :medium => "300x300>", :thumb => "100x100>" }
@@ -18,11 +20,9 @@ class Item < ActiveRecord::Base
   acts_as_taggable
   acts_as_taggable_on :tags, :events, :groups
 
-  #attr_accessor :image_remote_url
 
-  def picture_from_url(url)
-    #self.image = open(url)
-  end
+
+  #attr_accessor :image_remote_url
 
   #:image_remote_url_provided?
   #validates_presence_of :image_remote_url, :if => :image_remote_url_provided?, :message => 'is invalid or inaccessible'

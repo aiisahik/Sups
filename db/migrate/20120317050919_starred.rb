@@ -4,6 +4,6 @@ class Starred < ActiveRecord::Migration
   end
 
   def down
-  	remove_column :accounts, :starred
+  	remove_column :items, :starred
   end
 end

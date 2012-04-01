@@ -6,7 +6,7 @@ development:
   host: 127.0.0.1
   database: sups_development
   username: root
-  password: password
+  password: 
   pool: 5
   timeout: 5000
   socket: /tmp/mysql.sock
@@ -19,7 +19,7 @@ test:
   host: 127.0.0.1
   database: sups_test
   username: root
-  password: password
+  password: 
   pool: 5
   timeout: 5000
   socket: /tmp/mysql.sock
@@ -29,7 +29,7 @@ production:
   host: 127.0.0.1
   database: sups_production
   username: root
-  password: password
+  password: 
   pool: 5
   timeout: 5000
   socket: /tmp/mysql.sock

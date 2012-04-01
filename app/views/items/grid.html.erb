@@ -1,26 +1,30 @@
 <% @page_title = "Items List" %>
 
+
+
+
 <h2>Items</h2>
-<%= link_to('Back to list', {:action => 'grid', :group_name => ""}) %>
+<%= link_to('Back to list', {:action => 'grid', :collection_name => ""}) %>
 
 <ul class="nav nav-pills">
 <h3> My Collections </h3>
-<%if (params[:group_name] == "") %>
+<%= link_to('Add/Delete Collections', {:action => 'edit', :id => @item.id}, :class => 'btn-primary') %>
+<%if (params[:collection_name] == "") %>
   <li class = "active">
   <%else%>
   <li>
   <%end%>
-  <%= link_to "All", :action => 'grid', :group_name => ""%>
+  <%= link_to "All", :action => 'grid', :collection_name => ""%>
   </li>
   
   <% if @groups != [] %>
-<% @groups.each do |group| %>
-<%if (params[:group_name] == group.name)%>
+<% current_user.owned_tags.where("context = ?", "groups").each do |group| %>
+<%if (params[:collection_name] == group.name)%>
   <li class = "active">
   <%else%>
   <li>
   <%end%>
-<%= link_to group.name, :action => 'grid', :group_name => group.name %>
+<%= link_to group.name, :action => 'grid', :collection_name => group.name%>
 </li>
   <%end%>
 <%end%>
@@ -34,33 +38,33 @@
 
 
 
-<%if (params[:group_name] == "") %>
+<%if (params[:collection_name] == "") %>
 
     <table width=670px> 
     <tr>
     <td>
-    <%= link_to('Add New Item', {:action => 'new', :group_name => "", :action_name => "grid"}, :class => 'btn-primary') %>
-    <%= pluralize(@items.size, 'item') %> found
+    <%= link_to('Add New Item', {:action => 'new', :collection_name => "", :action_name => "grid"}, :class => 'btn-primary') %>
+    <%= pluralize(@items.length, 'item') %> found
     </td>
     <td align=right>
     <% if (params[:starred] == "1") %>
-          <%= link_to(image_tag('yellow-star1.png', :size => "25x25"), {:action => 'grid', :group_name => ""}) %>
+          <%= link_to(image_tag('yellow-star1.png', :size => "25x25", :mouseover => 'star_silver.png'), {:action => 'grid', :collection_name => ""}) %>
         <%else%> 
-            <%= link_to(image_tag('star_silver.png', :size => "25x25", :mouseover => 'yellow-star1.png'), {:action => 'grid', :starred => 1, :group_name => ""}) %>
+            <%= link_to(image_tag('star_silver.png', :size => "25x25", :mouseover => 'yellow-star1.png'), {:action => 'grid', :starred => 1, :collection_name => ""}) %>
         <%end%>
            <%= link_to(image_tag('icon_list.png'), {:action => 'list', :group_name => ""}) %>
-    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :group_name => ""}) %>
+    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :collection_name => ""}) %>
     </td>
 
     </tr>
     </table>
 
     <%= form_for(:tag, :url => {:action => 'grid'}, :method => 'GET') do |f| %>
-        <%= select_tag :tag_name, options_from_collection_for_select(@tags, "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
-        <%= select_tag :event_name, options_from_collection_for_select(@events, "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
+        <%= select_tag :tag_name, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "tags"), "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
+        <%= select_tag :event_name, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "events"), "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
         <%= select_tag :description, options_for_select(["Image", "Text"]), :prompt => 'Filter by Type', :onchange => 'submit()'%>
         
-        <%= hidden_field_tag 'group_name', "" %>
+        <%= hidden_field_tag 'collection_name', "" %>
 
         
    
@@ -74,17 +78,17 @@
 <table width=670px> 
     <tr>
     <td>
-    <%= link_to('Add New Item', {:action => 'new', :group_name => params[:group_name], :action_name => "grid"}, :class => 'btn-primary') %>
-    <%= pluralize(@items.size, 'item') %> found
+    <%= link_to('Add New Item', {:action => 'new', :collection_name => params[:collection_name], :action_name => "grid"}, :class => 'btn-primary') %>
+    <%= pluralize(@items.length, 'item') %> found
     </td>
     <td align=right>
         <% if (params[:starred] == "1") %>
-          <%= link_to(image_tag('yellow-star1.png', :size => "25x25"), {:action => 'grid', :group_name => params[:group_name]}) %>
+          <%= link_to(image_tag('yellow-star1.png', :size => "25x25", :mouseover => 'star_silver.png'), {:action => 'grid', :collection_name => params[:collection_name]}) %>
         <%else%> 
-            <%= link_to(image_tag('star_silver.png', :size => "25x25", :mouseover => 'yellow-star1.png'), {:action => 'grid', :starred => 1, :group_name => params[:group_name]}) %>
+            <%= link_to(image_tag('star_silver.png', :size => "25x25", :mouseover => 'yellow-star1.png'), {:action => 'grid', :starred => 1, :collection_name => params[:collection_name]}) %>
         <%end%>
-        <%= link_to(image_tag('icon_list.png'), {:action => 'list', :group_name => params[:group_name]}) %>
-    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :group_name => params[:group_name]}) %>
+        <%= link_to(image_tag('icon_list.png'), {:action => 'list', :collection_name => params[:collection_name]}) %>
+    <%= link_to(image_tag('grid-icon1.png'), {:action => 'grid', :collection_name => params[:collection_name]}) %>
     </td>
 
     </tr>
@@ -96,11 +100,11 @@
         
             
 
-        <%= select_tag :tag_name, options_from_collection_for_select(@tags, "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
-        <%= select_tag :event_name, options_from_collection_for_select(@events, "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
+        <%= select_tag :tag_name, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "tags"), "name", "name"), :prompt => 'Filter by Tags', :onchange => 'submit()'%>
+        <%= select_tag :event_name, options_from_collection_for_select(current_user.owned_tags.where("context = ?", "events"), "name", "name"), :prompt => 'Filter by Events', :onchange => 'submit()'%>
         <%= select_tag :description, options_for_select(["Image", "Text"]), :prompt => 'Filter by Type', :onchange => 'submit()' %>
 
-        <%= hidden_field_tag 'group_name', @group_name %>
+        <%= hidden_field_tag 'collection_name', @group_name %>
 
 
     <%end%>
@@ -116,32 +120,32 @@
           <div class="thumbnail" >
             <% if (item.description == 'Image') %>
              <% if item.pic.exists? %>
-              <%= link_to (image_tag item.pic.url(:medium)), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+              <%= link_to (image_tag item.pic.url(:medium)), {:action => 'show', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}, {:class => "thumbnail"} %>
               <%end%>
               <% if !item.image_remote_url.blank? %>
-              <%= link_to (image_tag item.image_remote_url), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+              <%= link_to (image_tag item.image_remote_url), {:action => 'show', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}, {:class => "thumbnail", :size => "100x100"} %>
               <%end%>
               <%else%>
               <hs>
 
-              <%= link_to (truncate(item.note, :length => 20)), {:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, {:class => "thumbnail"} %>
+              <%= link_to (truncate(item.note, :length => 20)), {:action => 'show', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}, {:class => "thumbnail"} %>
 </br></h5>
               <%end%>
 
-              <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :group_name => params[:group_name], :action_name => "grid"})%> 
-                <%= link_to(image_tag('onebit_20.png', :size => "15x15"), {:action => 'edit', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}) %>
-                  <%= link_to(image_tag('delete.png', :size => "15x15"), {:action => 'delete', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}) %>
+              <h5> <%= link_to(image_tag('view-icon.gif', :size => "15x15"),{:action => 'show', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"})%> 
+                <%= link_to(image_tag('onebit_20.png', :size => "15x15"), {:action => 'edit', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}) %>
+                  <%= link_to(image_tag('delete.png', :size => "15x15"), {:action => 'delete', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}) %>
                   </h5>
 
               <h5><%= item.name %></h5>
               <h5><%= item.tag_list %></h5>
               <h5><%= item.event_list %></h5>
               <h5>
-              <%= form_for(:item, :url => {:action => 'update', :id => item.id, :group_name => params[:group_name], :action_name => "grid"}, :method => 'PUT') do |f| %>
+              <%= form_for(:item, :url => {:action => 'updatestar', :id => item.id, :collection_name => params[:collection_name], :action_name => "grid"}, :method => 'PUT') do |f| %>
               <%if (item.starred == true) %>
                 <table>
               <tr>
-                <th><%= f.label :starred, image_tag('yellow-star1.png', :size => "25x25"), {:for => item.id} %></th>
+                <th><%= f.label :starred, image_tag('yellow-star1.png', :size => "25x25", :mouseover => 'star_silver.png'), {:for => item.id} %></th>
                 <td><%= f.check_box :starred, {:onchange => 'submit()', :checked => true, :id => item.id}, "yes", "no" %></td>
                 </tr>
                 </table>

@@ -1,0 +1,21 @@
+<% @page_title = "Admin Login" %>
+
+<div class="login">
+  <%= form_tag(:action => 'attempt_login') do %>
+  <table>
+    <tr>
+      <td><%= label_tag(:username) %></td>
+      <td><%= text_field_tag(:username) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag(:password) %></td>
+      <td><%= password_field_tag(:password) %></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><%= submit_tag("Log In") %></td>
+    </tr>
+  </table>
+  <% end %>
+  <%= link_to('Add New User', {:controller => 'users', :action => 'new'}, :class => 'btn-primary') %>
+</div>

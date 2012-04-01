@@ -1,12 +1,9 @@
 class ItemsController < ApplicationController
 
-  #layout 'admin'
+  layout 'admin'
 
-  #before_filter :confirm_logged_in
+  before_filter :confirm_logged_in
 
-  def image_from_url(url)
-    self.image = open(url)
-  end
 
   def tag_cloud
     @tags = Item.tag_counts_on(:tags) || []
@@ -14,89 +11,96 @@ class ItemsController < ApplicationController
 
   def index
     list
-    @items = Item.all
+    @items = Item.where(:user_id => current_user.id)
     render('list')
   end
 
   def list
-   
-    if (params[:group_name] == nil) || (params[:group_name] == "") 
+
+   if (params[:collection_name] == nil) || (params[:collection_name] == "") 
    
 
       if (params[:starred] == "1")
-        @items = Item.where(:starred => true)
+        @items = Item.where(:starred => true).where(:user_id => current_user.id)
       else 
         if ((params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil))
-          @items = Item.all
+          @items = [Item.where(:user_id => current_user.id)].drop(1)
         else
-         @items = Item.tagged_with(params[:tag_name]) | Item.tagged_with(params[:event_name]) | Item.where(:description => params[:description]) | Item.tagged_with(params[:group_name])
+         @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
         end
       end
     
     else
 
       if (params[:starred] == "1")
-        @items = Item.tagged_with(params[:group_name]).where(:starred => true)
+        @items = Item.tagged_with(params[:collection_name]).where(:starred => true).where(:user_id => current_user.id).uniq
       else 
         if (params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil)
-            @items = Item.tagged_with(params[:group_name])
+            @items = [Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq].drop(1)
         else 
-           @items = Item.tagged_with(params[:group_name]).tagged_with(params[:tag_name]) | Item.tagged_with(params[:group_name]).tagged_with(params[:event_name]) | Item.tagged_with(params[:group_name]).where(:description => params[:description])
+            @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq
         end
       end
 
     end
+
     
     @tags = Item.tag_counts_on(:tags) || []
     @events = Item.tag_counts_on(:events) || []
     @groups = Item.tag_counts_on(:groups) || []
-    @group_name = params[:group_name] || ""
-
-
-    end 
-
-    
-
-    def grid 
-
-    if (params[:group_name] == nil) || (params[:group_name] == "") 
+    @group_name = params[:collection_name] || ""
+    @item = Item.where(:user_id => current_user.id).first
    
-
-      if (params[:starred] == "1")
-        @items = Item.where(:starred => true)
-      else 
-        if ((params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil))
-          @items = Item.all
-        else
-         @items = Item.tagged_with(params[:tag_name]) | Item.tagged_with(params[:event_name]) | Item.where(:description => params[:description]) | Item.tagged_with(params[:group_name])
-        end
-      end
-    
-    else
-
-      if (params[:starred] == "1")
-        @items = Item.tagged_with(params[:group_name]).where(:starred => true)
-      else 
-        if (params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil)
-            @items = Item.tagged_with(params[:group_name])
-        else 
-           @items = Item.tagged_with(params[:group_name]).tagged_with(params[:tag_name]) | Item.tagged_with(params[:group_name]).tagged_with(params[:event_name]) | Item.tagged_with(params[:group_name]).where(:description => params[:description])
-        end
-      end
-
-    end
-    
-    @tags = Item.tag_counts_on(:tags) || []
-    @events = Item.tag_counts_on(:events) || []
-    @groups = Item.tag_counts_on(:groups) || []
-    @group_name = params[:group_name] || ""
-    #@image = Item.image_from_url(:image_remote_url)
-
 
     end 
   
 
 
+    
+
+    def grid 
+
+  
+   if (params[:collection_name] == nil) || (params[:collection_name] == "") 
+   
+
+      if (params[:starred] == "1")
+        @items = Item.where(:starred => true).where(:user_id => current_user.id)
+      else 
+        if ((params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil))
+          @items = [Item.where(:user_id => current_user.id)].drop(1)
+        else
+         @items = Item.tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id) | Item.tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id) | Item.where(:description => params[:description]).where(:user_id => current_user.id) | Item.tagged_with(params[:collection_name], :on => :groups).where(:user_id => current_user.id)
+        end
+      end
+    
+    else
+
+      if (params[:starred] == "1")
+        @items = Item.tagged_with(params[:collection_name]).where(:starred => true).where(:user_id => current_user.id).uniq
+      else 
+        if (params[:tag_name] == nil) && (params[:event_name] == nil) && (params[:description] == nil)
+            @items = [Item.where(:user_id => current_user.id).tagged_with(params[:collection_name]).uniq].drop(1)
+        else 
+            @items = Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:tag_name], :on => :tags).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).tagged_with(params[:event_name], :on => :events).where(:user_id => current_user.id).uniq | 
+            Item.tagged_with(params[:collection_name], :on => :groups).where(:description => params[:description]).where(:user_id => current_user.id).uniq
+        end
+      end
+
+    end
+
+    
+    @tags = Item.tag_counts_on(:tags) || []
+    @events = Item.tag_counts_on(:events) || []
+    @groups = Item.tag_counts_on(:groups) || []
+    @group_name = params[:collection_name] || ""
+    @item = Item.where(:user_id => current_user.id).first
+ 
+
+    end 
 
   def show
     @item = Item.find(params[:id])
@@ -104,23 +108,45 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+    @items = Item.where(:user_id => current_user.id)
+
   end
 
   def create
     @item = Item.new(params[:item])
     if @item.save
+      current_user.tag(@item, :with => params[:item][:tag_list], :on => :tags)
+      current_user.tag(@item, :with => params[:item][:group_list], :on => :groups)
+      current_user.tag(@item, :with => params[:item][:event_list], :on => :events)
       flash[:notice] = 'Item created!'
       #redirect_to @item, :notice => :default
       #redirect_to(:action => 'list')
       if (params[:action_name] == 'grid')
-        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+        redirect_to(:action => params[:action_name], :collection_name => params[:collection_name])
       else
-        redirect_to(:action => 'list', :group_name => params[:group_name])
+        redirect_to(:action => 'list', :collection_name => params[:collection_name])
       end
     else
       render("new")
     end
   end
+
+
+def createinitial
+    @item = Item.new(:user_id => params[:user_id], :name => 89038409830948, :description => 'Text')
+    if @item.save
+      flash[:notice] = 'Account created! Please login'
+      #redirect_to @item, :notice => :default
+      #redirect_to(:action => 'list')
+      redirect_to(:controller => 'access', :action => 'login')
+    else
+      flash[:notice] = 'Sorry, try again'
+      redirect_to(:controller => 'users', :action => 'new')
+
+    end
+  end
+
+
 
   def edit
     @item = Item.find(params[:id])
@@ -128,19 +154,23 @@ class ItemsController < ApplicationController
     @tags = Item.tag_counts_on(:tags) || []
     @events = Item.tag_counts_on(:events) || []
     @groups = Item.tag_counts_on(:groups) || []
+    @items = Item.where(:user_id => current_user.id)
 
   end
 
   def update
     @item = Item.find(params[:id])
     if @item.update_attributes(params[:item])
+      current_user.tag(@item, :with => params[:item][:tag_list], :on => :tags)
+      current_user.tag(@item, :with => params[:item][:group_list], :on => :groups)
+      current_user.tag(@item, :with => params[:item][:event_list], :on => :events)
       flash[:notice] = 'Item updated.'
       #redirect_to @item, :notice => :default
       #redirect_to item_path(@item.id), :notice => :default
       if (params[:action_name] == 'grid')
-        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+        redirect_to(:action => params[:action_name], :collection_name => params[:collection_name])
       else
-        redirect_to(:action => 'list', :group_name => params[:group_name])
+        redirect_to(:action => 'list', :collection_name => params[:collection_name])
       end
 
     else
@@ -150,6 +180,24 @@ class ItemsController < ApplicationController
   end
 
 
+  def updatestar
+    @item = Item.find(params[:id])
+    if @item.update_attributes(params[:item])
+      flash[:notice] = 'Item updated.'
+      #redirect_to @item, :notice => :default
+      #redirect_to item_path(@item.id), :notice => :default
+      if (params[:action_name] == 'grid')
+        redirect_to(:action => params[:action_name], :collection_name => params[:collection_name])
+      else
+        redirect_to(:action => 'list', :collection_name => params[:collection_name])
+      end
+
+    else
+      flash[:notice] = 'failed'
+      render("list")
+    end
+  end
+
   def delete
     @item = Item.find(params[:id])
   end
@@ -158,9 +206,9 @@ class ItemsController < ApplicationController
     Item.find(params[:id]).destroy
     flash[:notice] = "Item destroyed."
       if (params[:action_name] == 'grid')
-        redirect_to(:action => params[:action_name], :group_name => params[:group_name])
+        redirect_to(:action => params[:action_name], :collection_name => params[:collection_name])
       else
-        redirect_to(:action => 'list', :group_name => params[:group_name])
+        redirect_to(:action => 'list', :collection_name => params[:collection_name])
       end
 
   end

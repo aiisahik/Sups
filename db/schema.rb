@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120325053013) do
+ActiveRecord::Schema.define(:version => 20120327230046) do
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :null => false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20120325053013) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "user_id"
   end
 
   create_table "taggings", :force => true do |t|
@@ -89,11 +90,17 @@ ActiveRecord::Schema.define(:version => 20120325053013) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username",   :null => false
-    t.string   "email",      :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "username",                      :null => false
+    t.string   "email",                         :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "hashed_password"
+    t.string   "salt",            :limit => 40
   end
+
+  add_index "users", ["username"], :name => "index_users_on_username"
 
   create_table "vendors", :force => true do |t|
     t.string   "name",       :null => false
