@@ -59,6 +59,13 @@ def self.hash_with_salt(password="", salt="")
 	Digest::SHA1.hexdigest("Put #{salt} on the #{password}")
 end
 
+def send_new_password
+    new_pass = User.random_string(15)
+    self.password = self.password_confirmation = new_pass
+    self.save
+    Notifications.deliver_forgot_password(self.email, self.login, new_pass)
+end
+
 private
 def create_hashed_password
 	unless password.blank?
@@ -72,6 +79,12 @@ def clear_password
 end
 
 
-
+  def self.random_string(len)
+    #generat a random password consisting of strings and digits
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
 
 end
