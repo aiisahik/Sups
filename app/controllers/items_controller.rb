@@ -128,21 +128,23 @@ if (params[:collection_name] == nil) || (params[:collection_name] == "")
     @item = Item.find(params[:id])
   end
 
+
+
   def new
     @item = Item.new
     @items = Item.where(:user_id => current_user.id)
 
 
-  if params[:term]
-    @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['given_name LIKE ?', "#{params[:term]}%"])
-  else
-    @tags = current_user.owned_tags.where("context = ?", "tags")
-  end
+    if params[:term]
+      @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+    else
+      @tags = current_user.owned_tags.where("context = ?", "tags")
+    end
 
-  respond_to do |format|  
-    format.html # index.html.erb  
-# Here is where you can specify how to handle the request for "/people.json"
-    format.json { render :json => @tags.to_json }
+    respond_to do |format|
+      format.html # index.html.erb
+
+      format.json { render :json => @tags.to_json }
     end
 
   end

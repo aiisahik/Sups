@@ -1,12 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Testapp</title>
+  <title>Sups Wedding </title>
   <%= stylesheet_link_tag    "jquery-ui-1.8.18.custom.css", "dojo.css", "tundra.css", "style", "application", :media => "all" %>
-  <%= javascript_include_tag "jquery-1.7.1.min.js", "jquery-ui-1.8.18.custom.min.js", "jquery.dataTables.js", "jquery.js", "jquery.dataTables.min.js", "DT_bootstrap.js", "paging.js", "checkbox.js", "bootstrap-tabs.js", "application" %>
-  <%= csrf_meta_tags %>
+  <%= javascript_include_tag "jquery-1.7.1.min.js",
+                             "jquery.dataTables.js",
+
+                             "jquery.dataTables.min.js",
+                             "jquery.ui.core.js",
+                             "jquery.ui.widget.js",
+                             "jquery.ui.position.js",
+                             "jquery.ui.autocomplete.js",
+                             "DT_bootstrap.js",
+                             "paging.js",
+                             "checkbox.js",
+                             "bootstrap-tab.js"%>
+
+
+  <script>
+
+
+      $(function() {
+          function log( message ) {
+              $( "<div/>" ).text( message ).prependTo( "#log" );
+              $( "#log" ).scrollTop( 0 );
+          }
+
+          $( "#item_tag_list" ).autocomplete({
+              source: function( request, response ) {
+                  $.ajax({
+                      url: "new.json",
+                      success: function( data ) {
+                          response( $.map( data, function( item ) {
+                              return {
+                                  label: item.name + ", id: " + item.id,
+                                  value: item.name
+                              }
+                          }));
+                      }
+                  });
+              },
+              minLength: 2,
+              select: function( event, ui ) {
+                  log( ui.item ?
+                          "Selected: " + ui.item.label :
+                          "Nothing selected, input was " + this.value);
+              },
+              open: function() {
+                  $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+              },
+              close: function() {
+                  $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+              }
+          });
+      });
+
+  </script>
+
 
 <script>
+
+
 
 $(document).ready(function() {
     $('#example').dataTable( {
@@ -34,11 +88,11 @@ $(document).ready(function() {
 } );
 
 
+  </script>
 
 
-</script>
 
-<script>
+  <script>
 $('#myTab').tab('show')
 	</script>
  
@@ -47,6 +101,12 @@ $('#myTab').tab('show')
     $('.tabs a:last').tab('show')
   })
 </script>
+
+
+
+
+  <%= csrf_meta_tags %>
+
 
 
 </head>
