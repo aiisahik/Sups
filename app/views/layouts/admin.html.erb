@@ -20,32 +20,81 @@
   <script>
 
 
+
       $(function() {
           function log( message ) {
               $( "<div/>" ).text( message ).prependTo( "#log" );
               $( "#log" ).scrollTop( 0 );
           }
 
-          $( "#item_tag_list" ).autocomplete({
+          function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+
+    $("#item_tag_list, #item_event_list")
+          // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).data( "autocomplete" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+          .autocomplete({
+
+            minLength: 0,
+
+
               source: function( request, response ) {
                   $.ajax({
+
+                dataType: "json",
+                
+                data: {
+                    term: extractLast( request.term ),
+
+                },
+
                       url: "new.json",
                       success: function( data ) {
                           response( $.map( data, function( item ) {
                               return {
-                                  label: item.name + ", id: " + item.id,
+                                  label: item.name,
                                   value: item.name
                               }
                           }));
                       }
                   });
               },
-              minLength: 2,
+
+
+              focus: function() {
+          // prevent value inserted on focus
+                return false;
+              },
+              
               select: function( event, ui ) {
                   log( ui.item ?
                           "Selected: " + ui.item.label :
                           "Nothing selected, input was " + this.value);
+
+                  var terms = split( this.value );
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push( ui.item.value );
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push( "" );
+                  this.value = terms.join( ", " );
+                  return false;
               },
+
+
+
+
+
               open: function() {
                   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
               },
@@ -54,6 +103,10 @@
               }
           });
       });
+
+
+
+
 
   </script>
 

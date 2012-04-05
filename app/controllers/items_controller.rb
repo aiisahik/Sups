@@ -133,19 +133,21 @@ if (params[:collection_name] == nil) || (params[:collection_name] == "")
   def new
     @item = Item.new
     @items = Item.where(:user_id => current_user.id)
-
+   
 
     if params[:term]
-      @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+      @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"]) | current_user.owned_tags.where("context = ?", "events").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+      
     else
-      @tags = current_user.owned_tags.where("context = ?", "tags")
+      @tags = current_user.owned_tags.where("context = ?", "tags") | current_user.owned_tags.where("context = ?", "events")
+      
     end
 
     respond_to do |format|
       format.html # index.html.erb
-
-      format.json { render :json => @tags.to_json }
+      format.json { render :json => @tags}
     end
+
 
   end
 
@@ -188,10 +190,21 @@ def createinitial
   def edit
     @item = Item.find(params[:id])
     flash[:notice] = 'Item updating.'
-    @tags = Item.tag_counts_on(:tags) || []
-    @events = Item.tag_counts_on(:events) || []
-    @groups = Item.tag_counts_on(:groups) || []
     @items = Item.where(:user_id => current_user.id)
+
+
+    if params[:term]
+      @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"]) | current_user.owned_tags.where("context = ?", "events").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+      
+    else
+      @tags = current_user.owned_tags.where("context = ?", "tags") | current_user.owned_tags.where("context = ?", "events")
+      
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @tags}
+    end
 
   end
 
