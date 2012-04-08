@@ -43,19 +43,16 @@
         }
       })
           .autocomplete({
-
             minLength: 0,
-
-
               source: function( request, response ) {
                   $.ajax({
-
                 dataType: "json",
-                
-                data: {
-                    term: extractLast( request.term ),
-
-                },
+               
+               
+               
+               //data: "{'term':'2','Id2':'2'}"
+               
+                data: {term: request.term},{tagtype: 'events'},
 
                       url: "new.json",
                       success: function( data ) {

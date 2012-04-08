@@ -7,7 +7,7 @@ class Item < ActiveRecord::Base
   belongs_to :users
   
   validates :name, :presence => true
-  validates :description, :presence => true
+  #validates :description, :presence => true
 
   validates_uniqueness_of :id
   
@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
              { :medium => "300x300>", :thumb => "100x100>" }
   
   acts_as_taggable
-  acts_as_taggable_on :tags, :events, :groups
+  acts_as_taggable_on :tags, :events, :groups 
 
 
 

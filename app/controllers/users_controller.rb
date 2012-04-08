@@ -23,12 +23,23 @@ class UsersController < ApplicationController
   end
 
   def create
+    
+    
     @user = User.new(params[:user])
     if @user.save
-      flash[:notice] = 'User created!'
-      #redirect_to @user, :notice => :default
-      #redirect_to(:action => 'list')
-      redirect_to(:controller => 'items', :action => 'createinitial', :user_id => @user.id)
+      
+      #blankitem = Item.new(:name => "empty", :description => "empty", :user_id => @user.id)
+      #debugger
+      #if blankitem.save
+      
+        flash[:notice] = 'User created!'
+        #redirect_to @user, :notice => :default
+        #redirect_to(:action => 'list')
+        redirect_to(:controller => 'items', :action => 'createinitial', :user_id => @user.id)
+      #else
+      #  logger.info "failed to save blank item"
+      #  render("new")
+      #end 
     else
       render("new")
     end

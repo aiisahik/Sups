@@ -1,7 +1,10 @@
 class ItemsController < ApplicationController
 
-  layout 'admin'
-
+  layout :resolve_layout
+  
+  
+  
+  
   before_filter :confirm_logged_in
 
 
@@ -129,25 +132,36 @@ if (params[:collection_name] == nil) || (params[:collection_name] == "")
   end
 
 
-
+  
   def new
     @item = Item.new
     @items = Item.where(:user_id => current_user.id)
    
 
-    if params[:term]
-      @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"]) | current_user.owned_tags.where("context = ?", "events").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+    if params[:tagtype] == "events"
       
+      if params[:term]
+        @tags = current_user.owned_tags.where("context = ?", "events").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+        
+      else
+        @tags = current_user.owned_tags.where("context = ?", "events")
+        
+      end
     else
-      @tags = current_user.owned_tags.where("context = ?", "tags") | current_user.owned_tags.where("context = ?", "events")
-      
+      if params[:term]
+        @tags = current_user.owned_tags.where("context = ?", "tags").find(:all,:conditions => ['name LIKE ?', "#{params[:term]}%"])
+        
+      else
+        @tags = current_user.owned_tags.where("context = ?", "tags")
+        
+      end
     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @tags}
     end
-
+    #render :layout => "upload"
 
   end
 
@@ -168,6 +182,19 @@ if (params[:collection_name] == nil) || (params[:collection_name] == "")
     else
       render("new")
     end
+    #@upload = params[:item][:pic]
+    #debugger
+    #[{"name":"picture1.jpg",
+    #   "size":902604,
+    #   "url":"\/\/example.org\/files\/picture1.jpg",
+    #   "thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg",
+    #   "delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg",
+    #   "delete_type":"DELETE"}]
+    #
+    #respond_to do |format|
+    #  format.html # index.html.erb
+    #  format.json { render :json => @item}
+    #end
   end
 
 
@@ -263,6 +290,18 @@ def createinitial
 
   end
 
+  private
+
+  def resolve_layout
+    case action_name
+    when "new", "new2"
+      "upload"
+    else
+      "admin"
+    end
+  end
+  
+  
 end
 
 
