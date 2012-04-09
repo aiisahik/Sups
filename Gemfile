@@ -30,8 +30,8 @@ group :development do
   gem 'rspec-rails'
   gem 'delorean'
   gem 'mysql2', '~> 0.3.11'
-  gem 'linecache19'
-  gem 'ruby-debug19', :require => 'ruby-debug'
+  #gem 'linecache19'
+  #gem 'ruby-debug19', :require => 'ruby-debug'
 end
 
 gem 'jquery-rails'

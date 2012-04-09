@@ -197,6 +197,7 @@ DEPENDENCIES
   delorean
   heroku
   jquery-rails
+  linecache19
   mysql2 (~> 0.3.11)
   paperclip (~> 2.3)
   pg
