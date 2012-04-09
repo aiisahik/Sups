@@ -5,7 +5,8 @@ class ItemsController < ApplicationController
   
   
   
-  before_filter :confirm_logged_in
+  before_filter :confirm_logged_in, :except => [:createinitial]
+
 
 
   def tag_cloud
